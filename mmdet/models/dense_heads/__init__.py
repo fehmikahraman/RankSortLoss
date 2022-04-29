@@ -18,6 +18,7 @@ from .pisa_retinanet_head import PISARetinaHead
 from .pisa_ssd_head import PISASSDHead
 from .qfl_head import QFLHead
 from .rank_based_atss_head import RankBasedATSSHead
+from .rank_corr_atss_head import RankCorrATSSHead
 from .rank_based_rpn_head import RankBasedRPNHead
 from .rank_based_paa_head import RankBasedPAAHead
 from .ranksort_yolact_head import RankSortYOLACTHead, RankSortYOLACTProtonet
@@ -41,5 +42,5 @@ __all__ = [
     'YOLACTSegmHead', 'YOLACTProtonet', 'YOLOV3Head', 'PAAHead',
     'SABLRetinaHead', 'CentripetalHead', 'VFNetHead', 'TransformerHead',
     'StageCascadeRPNHead', 'CascadeRPNHead', 'RankBasedATSSHead', 'RankBasedPAAHead',   
-    'RankSortYOLACTHead', 'RankSortYOLACTProtonet', 'QFLHead'
+    'RankSortYOLACTHead', 'RankSortYOLACTProtonet', 'QFLHead', 'RankCorrATSSHead'
     ]
