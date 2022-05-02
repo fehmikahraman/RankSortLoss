@@ -263,17 +263,19 @@ class RankCorrATSSHead(AnchorHead):
 
             # correlation implementation
             if len(pos_inds) > 1:
-                ious = bbox_overlaps(pos_decode_bbox_pred, pos_bbox_targets,
+                """ious = bbox_overlaps(pos_decode_bbox_pred, pos_bbox_targets,
                                      is_aligned=True).clamp(min=1e-6).detach()
                 labels_pos = cls_labels[pos_inds]
                 cls_score_pos = all_cls_scores[pos_inds, labels_pos]
                 cls_score_pos = cls_score_pos.sigmoid()
+                """
+                cls_score_pos = flat_preds[flat_labels > 0].sigmoid()
                 if self.corr_type == 'spearman':
-                    loss_corr = self.spearmanr(cls_score_pos, ious)
+                    loss_corr = self.spearmanr(cls_score_pos, IoU_targets)
                 elif self.corr_type == 'concordance':
-                    loss_corr = self.concordancer(cls_score_pos, ious)
+                    loss_corr = self.concordancer(cls_score_pos, IoU_targets)
                 elif self.corr_type == 'pearson':
-                    loss_corr = self.pearsonr(cls_score_pos, ious)
+                    loss_corr = self.pearsonr(cls_score_pos, IoU_targets)
                 if torch.isnan(loss_corr).any():
                     loss_corr = bbox_preds.sum() * 0
                 losses_corr = loss_corr * self.corr_w
