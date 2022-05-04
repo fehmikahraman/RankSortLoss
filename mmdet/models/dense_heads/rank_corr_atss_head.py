@@ -11,8 +11,8 @@ from .anchor_head import AnchorHead
 from mmdet.models.losses import ranking_losses
 import numpy as np
 import collections
-import torchsort
-import pdb
+#import torchsort
+#import pdb
 
 EPS = 1e-12
 
