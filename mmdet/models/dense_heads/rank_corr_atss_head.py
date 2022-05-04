@@ -263,13 +263,13 @@ class RankCorrATSSHead(AnchorHead):
 
             # correlation implementation
             if len(pos_inds) > 1:
-                """ious = bbox_overlaps(pos_decode_bbox_pred, pos_bbox_targets,
-                                     is_aligned=True).clamp(min=1e-6).detach()
+                #ious = bbox_overlaps(pos_decode_bbox_pred, pos_bbox_targets,
+                #                     is_aligned=True).clamp(min=1e-6).detach()
                 labels_pos = cls_labels[pos_inds]
                 cls_score_pos = all_cls_scores[pos_inds, labels_pos]
                 cls_score_pos = cls_score_pos.sigmoid()
-                """
-                cls_score_pos = flat_preds[flat_labels > 0].sigmoid()
+
+                #cls_score_pos = flat_preds[flat_labels > 0].sigmoid()
                 if self.corr_type == 'spearman':
                     loss_corr = self.spearmanr(cls_score_pos, IoU_targets)
                 elif self.corr_type == 'concordance':
@@ -635,7 +635,7 @@ class RankCorrATSSHead(AnchorHead):
         y_std = torch.std(y)
         vx = x - x_mean
         vy = y - y_mean
-        pcc = torch.sum(vx * vy) / (torch.sqrt(torch.sum(vx ** 2)) * torch.sqrt(torch.sum(vy ** 2)) + (1e-6))
+        pcc = torch.sum(vx * vy) / (torch.sqrt(torch.sum(vx ** 2)) * torch.sqrt(torch.sum(vy ** 2)))
         ccc = (2 * pcc * x_std * y_std) / (x_var + y_var + (x_mean - y_mean) ** 2)
         return 1 - ccc
 
