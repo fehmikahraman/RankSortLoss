@@ -248,7 +248,8 @@ class RankCorrATSSHead(AnchorHead):
             flat_preds = all_cls_scores.reshape(-1)
             
             IoU_targets = bbox_overlaps(pos_decode_bbox_pred.detach(), pos_decode_bbox_targets, is_aligned=True)
-            flat_labels[flat_labels==1]=IoU_targets
+            pos_flat_labels = (flat_labels==1)
+            flat_labels[pos_flat_labels]=IoU_targets
 
             ranking_loss, sorting_loss = self.loss_rank.apply(flat_preds, flat_labels, self.delta)
 
@@ -270,7 +271,8 @@ class RankCorrATSSHead(AnchorHead):
                 cls_score_pos = all_cls_scores[pos_inds, labels_pos]
                 cls_score_pos = cls_score_pos.sigmoid()
                 '''
-                cls_score_pos = flat_preds[flat_labels>0].sigmoid()
+                cls_score_pos = flat_preds[pos_flat_labels].sigmoid()
+                print(len(cls_score_pos), len(flat_preds[flat_labels>0]), len(IoU_targets))
                 if self.corr_type == 'spearman':
                     loss_corr = self.spearmanr(cls_score_pos, IoU_targets)
                 elif self.corr_type == 'concordance':
