@@ -11,8 +11,8 @@ from .anchor_head import AnchorHead
 from mmdet.models.losses import ranking_losses
 import numpy as np
 import collections
-import torchsort
-import pdb
+#import torchsort
+#import pdb
 
 EPS = 1e-12
 
@@ -636,7 +636,7 @@ class RankCorrATSSHead(AnchorHead):
         y_std = torch.std(y)
         vx = x - x_mean
         vy = y - y_mean
-        pcc = torch.sum(vx * vy) / (torch.sqrt(torch.sum(vx ** 2)) * torch.sqrt(torch.sum(vy ** 2)) + (1e-6))
+        pcc = torch.sum(vx * vy) / (torch.sqrt(torch.sum(vx ** 2)) * torch.sqrt(torch.sum(vy ** 2)))
         ccc = (2 * pcc * x_std * y_std) / (x_var + y_var + (x_mean - y_mean) ** 2)
         return 1 - ccc
 
