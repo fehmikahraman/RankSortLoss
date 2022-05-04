@@ -272,7 +272,6 @@ class RankCorrATSSHead(AnchorHead):
                 cls_score_pos = cls_score_pos.sigmoid()
                 '''
                 cls_score_pos = flat_preds[pos_flat_labels].sigmoid()
-                print(len(cls_score_pos), len(flat_preds[flat_labels>0]), len(IoU_targets))
                 if self.corr_type == 'spearman':
                     loss_corr = self.spearmanr(cls_score_pos, IoU_targets)
                 elif self.corr_type == 'concordance':
