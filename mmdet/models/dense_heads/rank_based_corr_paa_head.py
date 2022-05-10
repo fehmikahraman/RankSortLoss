@@ -210,7 +210,8 @@ class RankBasedCorrPAAHead(QFLHead):
             flat_preds = cls_scores.reshape(-1)
             
             IoU_targets = bbox_overlaps(pos_decode_bbox_pred.detach(), pos_decode_bbox_targets, is_aligned=True)
-            flat_labels[flat_labels==1]=IoU_targets
+            pos_flat_labels = (flat_labels == 1)
+            flat_labels[pos_flat_labels] = IoU_targets
 
             ranking_loss, sorting_loss = self.loss_rank.apply(flat_preds, flat_labels, self.delta)
 
@@ -224,7 +225,7 @@ class RankBasedCorrPAAHead(QFLHead):
 
             if len(pos_inds) > 1:
 
-                cls_score_pos = flat_preds[flat_labels==1].sigmoid()
+                cls_score_pos = flat_preds[pos_flat_labels].sigmoid()
                 if self.corr_type == 'spearman':
                     loss_corr = self.spearmanr(cls_score_pos, IoU_targets)
                 elif self.corr_type == 'concordance':
